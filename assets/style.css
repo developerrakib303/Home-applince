@@ -1,0 +1,1110 @@
+/* ==========================================================
+   যশোর হোম সার্ভিস — প্রেজেন্টেশন স্টাইল
+   রং: নেভি (ভিত্তি), সার্ভিস ব্লু (কাঠামো), জাফরান (জোর)
+   ========================================================== */
+
+:root {
+  --ink: #0F2540;
+  --ink-2: #1F3654;
+  --blue: #0A6AAE;
+  --blue-deep: #08548A;
+  --blue-soft: #EAF3FB;
+  --saffron: #C8650A;
+  --saffron-bright: #F2A33A;
+  --saffron-soft: #FFF5E4;
+  --paper: #F4F6F9;
+  --surface: #FFFFFF;
+  --text: #1B2735;
+  --text-2: #3E4D61;
+  --muted: #66768C;
+  --line: #D6DEE8;
+
+  --serif: "Noto Serif Bengali", "Tiro Bangla", "Nirmala UI", "Vrinda", serif;
+  --sans: "Hind Siliguri", "Noto Sans Bengali", "Nirmala UI", "Vrinda", system-ui, sans-serif;
+
+  --bar-h: 64px;
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --ease: cubic-bezier(.22, .7, .2, 1);
+  --stitch: repeating-linear-gradient(90deg, currentColor 0 9px, transparent 9px 15px);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  font-size: clamp(16px, min(0.5vw + 11.5px, 1.1vh + 10px), 21px);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--paper);
+  color: var(--text);
+  font-family: var(--sans);
+  line-height: 1.68;
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+h1, h2, h3 { font-family: var(--serif); margin: 0; }
+p { margin: 0; }
+strong { font-weight: 700; color: var(--ink); }
+em { font-style: italic; }
+
+:focus-visible {
+  outline: 3px solid var(--saffron-bright);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Deck & slide ---------- */
+
+.deck {
+  position: fixed;
+  inset: 0 0 calc(var(--bar-h) + var(--safe-b)) 0;
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(3.5%);
+  transition: opacity .45s var(--ease), transform .45s var(--ease), visibility 0s linear .45s;
+}
+
+.slide.is-before { transform: translateX(-3.5%); }
+
+.slide.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: 0s;
+}
+
+.slide__inner {
+  width: 100%;
+  max-width: 1020px;
+  margin: auto;
+  padding: clamp(22px, 4.5vh, 52px) clamp(16px, 5vw, 64px) clamp(26px, 5vh, 56px);
+}
+
+.slide__inner--wide { max-width: 1260px; }
+.slide--statement .slide__inner { max-width: 1020px; }
+
+/* ---------- Section heading ---------- */
+
+.sec-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: .55em;
+  padding-bottom: .7em;
+  margin-bottom: 1.15em;
+}
+
+/* দুই লাইনের ছাপা-রুল: মোটা নেভি + সরু নীল */
+.sec-head::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 6px;
+  background:
+    linear-gradient(var(--ink), var(--ink)) top / 100% 2px no-repeat,
+    linear-gradient(var(--blue), var(--blue)) bottom / 100% 1px no-repeat;
+}
+
+.sec-num {
+  flex: none;
+  font-family: var(--serif);
+  font-weight: 800;
+  font-size: 3.6em;
+  line-height: .95;
+  color: var(--blue);
+  letter-spacing: -.02em;
+}
+
+.sec-head h2 {
+  font-size: 1.72em;
+  font-weight: 700;
+  line-height: 1.32;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.sec-head--cont { margin-bottom: 1.4em; }
+.sec-head--cont .sec-num { font-size: 2.2em; color: #8FB4D3; }
+.sec-head--cont h2 { font-size: 1.12em; color: var(--text-2); font-weight: 600; }
+
+/* ---------- Text blocks ---------- */
+
+.lead {
+  font-size: 1.06em;
+  color: var(--text-2);
+  max-width: none;
+  margin-bottom: 1.3em;
+}
+
+.lead--big { font-size: 1.22em; max-width: none; }
+
+/* ---------- Diamond-bullet lists (নিয়ম, আয়ের উৎস, ০২) ---------- */
+
+.rules, .points {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: none;
+}
+
+.rules li, .points li {
+  position: relative;
+  padding: .85em 0 .9em 1.35em;
+  color: var(--text-2);
+}
+
+.rules li::before, .points li::before {
+  content: "";
+  position: absolute;
+  left: .1em;
+  top: 1.55em;
+  width: .42em;
+  height: .42em;
+  background: var(--saffron);
+  transform: rotate(45deg);
+}
+
+/* কাঁথা-সেলাইয়ের মতো ড্যাশ লাইন — আইটেম আলাদা করতে */
+.rules li + li::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 1.5px;
+  color: #C3CFDC;
+  background: var(--stitch);
+}
+
+.rules--compact li { padding-top: .6em; padding-bottom: .65em; }
+.rules--compact li::before { top: 1.3em; }
+
+.points li { font-size: 1.12em; }
+
+.quote { color: var(--ink-2); }
+
+/* ---------- ০১: পার্টনার টেবিল ---------- */
+
+.roles, .ledger {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.roles thead th, .ledger thead th {
+  background: var(--ink);
+  color: #fff;
+  font-weight: 600;
+  text-align: left;
+  padding: .7em 1em;
+  line-height: 1.4;
+  vertical-align: bottom;
+}
+
+.roles tbody th, .roles tbody td,
+.ledger tbody th, .ledger tbody td {
+  padding: .85em 1em;
+  vertical-align: top;
+  text-align: left;
+  border-top: 1px solid var(--line);
+}
+
+.roles tbody tr > * + *, .ledger tbody tr > * + * { border-left: 1px solid var(--line); }
+.roles thead th + th, .ledger thead th + th { border-left: 1px solid rgba(255,255,255,.12); }
+
+.roles thead th:nth-child(1) { width: 14%; }
+.roles thead th:nth-child(2) { width: 22%; }
+.roles tbody td { line-height: 1.55; }
+
+/* ০১-এর ভূমিকা স্লাইডে তিন পার্টনারের ঝলক */
+.trio {
+  list-style: none;
+  margin: 2em 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.2em;
+  max-width: 820px;
+}
+
+.trio li {
+  border-top: 3px solid var(--ink);
+  padding-top: .6em;
+}
+
+.trio li:nth-child(2) { border-color: var(--blue); }
+.trio li:nth-child(3) { border-color: var(--saffron); }
+
+.trio span {
+  display: block;
+  font-size: .92em;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.trio b {
+  display: block;
+  font-size: 1.35em;
+  color: var(--ink);
+  letter-spacing: .02em;
+}
+
+.roles tbody tr:nth-child(even) > * { background: #F9FBFD; }
+
+.who {
+  display: block;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.name-slot {
+  display: inline-block;
+  color: var(--muted);
+  font-weight: 400;
+  padding-bottom: 2px;
+  border-bottom: 1.5px dashed #B9C6D5;
+}
+
+.role-title {
+  display: block;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.45;
+}
+
+.chip {
+  display: inline-block;
+  margin-top: .45em;
+  padding: .08em .6em;
+  border-radius: 5px;
+  background: var(--blue-soft);
+  color: var(--blue-deep);
+  font-weight: 700;
+  font-size: .92em;
+  letter-spacing: .02em;
+}
+
+.ticks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ticks li {
+  position: relative;
+  padding-left: 1.05em;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+
+.ticks li + li { margin-top: .25em; }
+
+.ticks li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .68em;
+  width: .36em;
+  height: .36em;
+  border-radius: 50%;
+  background: var(--blue);
+}
+
+/* ---------- কলআউট ---------- */
+
+.callout {
+  border-left: 5px solid;
+  border-radius: 0 14px 14px 0;
+  padding: 1.15em 1.4em 1.25em;
+}
+
+.callout h3 {
+  font-size: 1.08em;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.45;
+  margin-bottom: .45em;
+}
+
+.callout p { color: var(--text); }
+
+.callout--saffron {
+  background: var(--saffron-soft);
+  border-color: var(--saffron);
+  box-shadow: inset 0 0 0 1px #F1DDB6;
+}
+
+.callout--blue {
+  background: var(--blue-soft);
+  border-color: var(--blue);
+  box-shadow: inset 0 0 0 1px #CFE2F2;
+}
+
+.callout--big { padding: 1.6em 1.9em 1.8em; }
+.callout--big h3 { font-size: 1.38em; margin-bottom: .6em; }
+.callout--big p { font-size: 1.32em; line-height: 1.7; }
+
+/* ৪০% + ২০% + ২০% + ২০% ভাগের চিত্র */
+.split {
+  display: flex;
+  gap: 5px;
+  height: 12px;
+  margin: .2em 0 1.1em;
+}
+
+.split span { border-radius: 3px; }
+.split__reserve { flex: 40; background: var(--ink); }
+.split__p { flex: 20; background: var(--blue); }
+
+/* ---------- ০৩: ওয়ার্কফ্লো ---------- */
+
+.flow {
+  margin: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: clamp(1.1em, 3vw, 2em) clamp(1em, 3vw, 2em) 1.3em;
+}
+
+.flow__steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 2.1em;
+}
+
+.flow__step {
+  position: relative;
+  border-radius: 12px;
+  padding: 1em .85em 1.05em;
+  text-align: center;
+  color: rgba(255,255,255,.92);
+  line-height: 1.5;
+}
+
+.flow__step b {
+  display: block;
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 1.02em;
+  color: #FFD27A;
+  margin-bottom: .35em;
+}
+
+.flow__step span { display: block; font-size: .93em; }
+
+.flow__step--ink { background: var(--ink); }
+.flow__step--blue { background: var(--blue); }
+.flow__step--saffron { background: var(--saffron); }
+.flow__step--saffron b { color: #fff; }
+
+.flow__step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -1.9em;
+  width: 1.7em;
+  height: 1.7em;
+  margin-top: -.85em;
+  background: var(--blue);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' aria-hidden='true' focusable='false'%3E%3Cpath d='M18.5 12L4.99997 12' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' /%3E%3Cpath d='M13 18C13 18 19 13.5811 19 12C19 10.4188 13 6 13 6' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' /%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' aria-hidden='true' focusable='false'%3E%3Cpath d='M18.5 12L4.99997 12' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' /%3E%3Cpath d='M13 18C13 18 19 13.5811 19 12C19 10.4188 13 6 13 6' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' /%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.flow figcaption {
+  margin-top: 1.5em;
+  padding-top: 1em;
+  position: relative;
+  text-align: center;
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: .95em;
+  color: var(--ink-2);
+}
+
+.flow figcaption::before {
+  content: "";
+  position: absolute;
+  left: 15%; right: 15%; top: 0;
+  height: 1.5px;
+  color: #C9D4E0;
+  background: var(--stitch);
+}
+
+/* ---------- ০৩: ধাপের বিবরণ (টাইমলাইন) ---------- */
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: step;
+  max-width: none;
+}
+
+.steps li {
+  position: relative;
+  counter-increment: step;
+  padding: 0 0 1.05em 3em;
+  color: var(--text-2);
+}
+
+.steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: .05em;
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--ink);
+  color: #fff;
+  font-weight: 700;
+  font-size: .95em;
+  line-height: 1;
+}
+
+.steps li:last-child::before { background: var(--saffron); }
+
+.steps li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: .93em;
+  top: 2.15em;
+  bottom: .15em;
+  width: 2px;
+  background: #C9D6E4;
+}
+
+/* ---------- ০৫: মার্কেটিং চ্যানেল ---------- */
+
+.channels {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1em 1.1em;
+}
+
+.channel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--blue);
+  border-radius: 4px 4px 12px 12px;
+  padding: 1em 1.2em 1.1em;
+}
+
+.channel h3 {
+  font-size: 1.02em;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.45;
+  margin-bottom: .45em;
+}
+
+.channel p { font-size: .95em; color: var(--text-2); line-height: 1.65; }
+
+/* ---------- ০৭: হিসাবের ছক ---------- */
+
+.ledger thead th { font-size: .95em; }
+.ledger .num { text-align: right; white-space: nowrap; }
+.ledger tbody th { font-weight: 500; color: var(--text); white-space: nowrap; }
+.ledger tbody td { color: var(--text-2); }
+.ledger tbody td.profit { background: var(--blue-soft); }
+.ledger tbody td.profit strong { color: var(--blue-deep); }
+.ledger thead th:last-child { background: var(--blue-deep); }
+
+/* ---------- ০৮: রোডম্যাপ ---------- */
+
+.roadmap {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  max-width: none;
+}
+
+.roadmap::before {
+  content: "";
+  position: absolute;
+  left: .55em;
+  top: .9em;
+  bottom: 1.6em;
+  width: 2px;
+  background: linear-gradient(var(--blue), var(--saffron));
+}
+
+.roadmap li {
+  position: relative;
+  padding: 0 0 1.35em 2.4em;
+  color: var(--text-2);
+}
+
+.roadmap li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .38em;
+  width: 1.15em;
+  height: 1.15em;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 3px solid var(--blue);
+}
+
+.roadmap li:last-child::before { border-color: var(--saffron); }
+
+/* ---------- ০৯: চেকলিস্ট ---------- */
+
+.checklist h3 { margin-bottom: .7em; }
+
+.checks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.check {
+  display: flex;
+  align-items: flex-start;
+  gap: .8em;
+  width: 100%;
+  margin: 0;
+  padding: .55em .5em;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-2);
+  font: inherit;
+  line-height: 1.62;
+  text-align: left;
+  cursor: pointer;
+}
+
+.check:hover { background: rgba(200, 101, 10, .07); }
+
+.check__box {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 1.45em;
+  height: 1.45em;
+  margin-top: .12em;
+  border: 2px solid var(--saffron);
+  border-radius: 6px;
+  background: var(--surface);
+  color: #fff;
+  transition: background-color .2s var(--ease);
+}
+
+.check__box svg {
+  width: 1.05em;
+  height: 1.05em;
+  opacity: 0;
+  transform: scale(.6);
+  transition: opacity .2s var(--ease), transform .2s var(--ease);
+}
+
+.check[aria-pressed="true"] .check__box { background: var(--saffron); }
+.check[aria-pressed="true"] .check__box svg { opacity: 1; transform: none; }
+
+.signs {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.6em;
+  margin-top: 1.1em;
+  padding-top: 2.4em;
+}
+
+.signs::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 1.5px;
+  color: #E2C79A;
+  background: var(--stitch);
+}
+
+.signs p {
+  border-top: 1.5px solid var(--ink);
+  padding-top: .45em;
+  text-align: center;
+  font-weight: 700;
+  color: var(--ink);
+  font-size: .95em;
+}
+
+/* ---------- কভার ---------- */
+
+.slide--cover {
+  background-color: var(--ink);
+  color: #fff;
+}
+
+/* কাঁথার রানিং-স্টিচ নকশা, ডান দিক থেকে মিলিয়ে যায় */
+.slide--cover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='28'%3E%3Cpath d='M3 7h14M23 21h14' stroke='%23F2A33A' stroke-opacity='.22' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");
+  -webkit-mask-image: linear-gradient(105deg, transparent 38%, #000 100%);
+          mask-image: linear-gradient(105deg, transparent 38%, #000 100%);
+}
+
+.cover {
+  position: relative;
+  width: 100%;
+  max-width: 1160px;
+  margin: auto;
+  padding: clamp(28px, 6vh, 72px) clamp(20px, 6vw, 72px) clamp(28px, 5vh, 56px);
+}
+
+.cover::before {
+  content: "";
+  position: absolute;
+  left: clamp(4px, 2vw, 32px);
+  top: clamp(28px, 6vh, 72px);
+  bottom: clamp(28px, 5vh, 56px);
+  width: 5px;
+  border-radius: 3px;
+  background: var(--saffron-bright);
+}
+
+.cover__kicker {
+  font-weight: 600;
+  font-size: 1.08em;
+  color: var(--saffron-bright);
+  margin-bottom: .6em;
+}
+
+.cover__title {
+  font-size: clamp(2.05rem, 4.9vw, 4.1rem);
+  font-weight: 800;
+  line-height: 1.24;
+  color: #fff;
+  max-width: 17em;
+  text-wrap: balance;
+}
+
+.cover__sub {
+  margin-top: .9em;
+  font-size: 1.16em;
+  color: rgba(255,255,255,.82);
+  max-width: 46em;
+}
+
+.cover__meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, auto));
+  justify-content: start;
+  gap: 1em 2.6em;
+  margin: 2em 0 0;
+  padding-top: 1.2em;
+  border-top: 1px solid rgba(255,255,255,.18);
+}
+
+.cover__meta dt {
+  font-size: .86em;
+  font-weight: 600;
+  color: var(--saffron-bright);
+}
+
+.cover__meta dd {
+  margin: 0;
+  font-size: 1.06em;
+  font-weight: 600;
+  color: #fff;
+}
+
+.cover__foot {
+  position: relative;
+  margin-top: 2.6em;
+  padding-top: 1em;
+  font-size: .88em;
+  color: rgba(255,255,255,.62);
+}
+
+.cover__foot::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0;
+  width: min(100%, 420px);
+  height: 1.5px;
+  color: rgba(242,163,58,.55);
+  background: var(--stitch);
+}
+
+/* ---------- প্রগ্রেস ও কন্ট্রোল বার ---------- */
+
+.progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.progress span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--saffron-bright);
+  transition: width .45s var(--ease);
+}
+
+.bar {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 10;
+  height: calc(var(--bar-h) + var(--safe-b));
+  padding: 0 max(16px, env(safe-area-inset-right)) var(--safe-b) max(16px, env(safe-area-inset-left));
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255,255,255,.96);
+  border-top: 1px solid var(--line);
+}
+
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .bar {
+    background: rgba(255,255,255,.86);
+    -webkit-backdrop-filter: saturate(1.4) blur(14px);
+            backdrop-filter: saturate(1.4) blur(14px);
+  }
+}
+
+.bar__doc {
+  font-size: .78em;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.bar__nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bar__tools {
+  justify-self: end;
+  display: flex;
+  gap: 4px;
+}
+
+.btn {
+  display: inline-grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background-color .2s var(--ease), border-color .2s var(--ease), opacity .2s;
+  touch-action: manipulation;
+}
+
+.btn svg { width: 24px; height: 24px; }
+.btn:hover { border-color: #AEBFD2; background: #F7FAFD; }
+.btn:disabled { opacity: .35; cursor: default; }
+
+.btn--primary { background: var(--ink); border-color: var(--ink); color: #fff; }
+.btn--primary:hover { background: var(--ink-2); border-color: var(--ink-2); }
+
+.btn--ghost { border-color: transparent; background: transparent; }
+.btn--ghost:hover { background: var(--blue-soft); border-color: transparent; }
+
+.btn .ic-min { display: none; }
+.btn[aria-pressed="true"] .ic-max { display: none; }
+.btn[aria-pressed="true"] .ic-min { display: block; }
+
+.counter {
+  min-width: 5.2em;
+  height: 46px;
+  padding: 0 .6em;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.counter:hover { background: var(--blue-soft); }
+
+/* ---------- স্লাইড তালিকা (মেনু) ---------- */
+
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  justify-content: flex-end;
+  background: rgba(15, 37, 64, .5);
+  opacity: 0;
+  transition: opacity .3s var(--ease);
+}
+
+.menu[hidden] { display: none; }
+.menu.is-open { opacity: 1; }
+
+.menu__panel {
+  position: relative;
+  width: min(460px, 100%);
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--surface);
+  padding: 64px 14px calc(24px + var(--safe-b));
+  transform: translateX(24px);
+  transition: transform .3s var(--ease);
+}
+
+.menu.is-open .menu__panel { transform: none; }
+
+.menu__close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.menu__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu__item {
+  display: grid;
+  grid-template-columns: 2.4em 1fr;
+  align-items: baseline;
+  gap: .5em;
+  width: 100%;
+  padding: .6em .7em;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  line-height: 1.45;
+  text-align: left;
+  cursor: pointer;
+}
+
+.menu__item:hover { background: var(--paper); }
+
+.menu__num {
+  font-family: var(--serif);
+  font-weight: 800;
+  color: var(--blue);
+}
+
+.menu__title { font-weight: 600; color: var(--ink); }
+
+.menu__item--sub { padding-top: .3em; padding-bottom: .45em; }
+.menu__item--sub .menu__title { font-weight: 400; font-size: .92em; color: var(--text-2); }
+.menu__item--sub .menu__num::before {
+  content: "";
+  display: inline-block;
+  width: .9em;
+  height: 1.5px;
+  vertical-align: middle;
+  margin-left: .55em;
+  color: #B9C6D5;
+  background: repeating-linear-gradient(90deg, currentColor 0 4px, transparent 4px 7px);
+}
+
+.menu__item[aria-current="true"] { background: var(--blue-soft); }
+.menu__item[aria-current="true"] .menu__title { color: var(--blue-deep); }
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1100px) {
+  .flow__steps { gap: 2em; }
+  .flow__step:not(:last-child)::after { right: -1.75em; width: 1.5em; height: 1.5em; margin-top: -.75em; }
+}
+
+@media (max-width: 960px) {
+  .bar { grid-template-columns: 1fr auto; }
+  .bar__doc { display: none; }
+  .bar__nav { justify-self: start; }
+}
+
+@media (max-width: 900px) {
+  /* ওয়ার্কফ্লো উপর থেকে নিচে */
+  .flow__steps { grid-template-columns: 1fr; gap: 1.9em; max-width: 460px; margin: 0 auto; }
+  .flow__step { display: grid; grid-template-columns: auto 1fr; align-items: baseline; gap: .7em; text-align: left; padding: .85em 1.1em; }
+  .flow__step b { margin: 0; white-space: nowrap; }
+  .flow__step:not(:last-child)::after {
+    top: auto;
+    right: auto;
+    left: 50%;
+    bottom: -1.75em;
+    width: 1.55em;
+    height: 1.55em;
+    margin: 0 0 0 -.775em;
+    transform: rotate(90deg);
+  }
+}
+
+@media (max-width: 760px) {
+  .sec-head { align-items: flex-start; gap: .5em; }
+  .sec-num { font-size: 2.5em; }
+  .sec-head h2 { font-size: 1.32em; padding-top: .2em; }
+  .sec-head--cont .sec-num { font-size: 1.8em; }
+  .sec-head--cont h2 { font-size: 1em; padding-top: .35em; }
+
+  .lead, .lead--big { font-size: 1em; }
+  .points li { font-size: 1.04em; }
+
+  .callout--big { padding: 1.2em 1.15em 1.3em; }
+  .callout--big h3 { font-size: 1.15em; }
+  .callout--big p { font-size: 1.1em; }
+
+  .channels { grid-template-columns: 1fr; }
+
+  /* টেবিল → কার্ড; প্রতিটি ঘরের শিরোনাম লেবেল হিসেবে দেখা যাবে */
+  .roles, .ledger { border: 0; border-radius: 0; background: transparent; overflow: visible; }
+  .roles thead, .ledger thead {
+    position: absolute;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+  .roles tbody, .roles tr, .roles th, .roles td,
+  .ledger tbody, .ledger tr, .ledger th, .ledger td { display: block; }
+
+  .roles tr, .ledger tr {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .roles tr + tr, .ledger tr + tr { margin-top: 14px; }
+
+  .roles tbody tr > *, .ledger tbody tr > * { border-left: 0 !important; }
+  .roles tbody tr:nth-child(even) > * { background: transparent; }
+
+  .roles tbody th, .ledger tbody th {
+    border-top: 0;
+    background: var(--ink) !important;
+    color: #fff;
+  }
+  .roles tbody th { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .3em 1em; }
+  .roles .who { color: #fff; }
+  .roles .name-slot { color: rgba(255,255,255,.75); border-bottom-color: rgba(255,255,255,.4); }
+
+  .roles td::before, .ledger td::before {
+    content: attr(data-label);
+    display: block;
+    font-size: .8em;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: .25em;
+  }
+
+  .roles td .role-title { display: inline; margin-right: .5em; }
+
+  .ledger tbody th::before {
+    content: attr(data-label);
+    display: block;
+    font-size: .8em;
+    font-weight: 600;
+    color: rgba(255,255,255,.7);
+  }
+  .ledger tbody td { padding: .55em 1em; }
+  .ledger .num { display: flex; justify-content: space-between; align-items: baseline; gap: 1em; text-align: right; }
+  .ledger .num::before { margin: 0; text-align: left; white-space: normal; }
+
+  .signs { grid-template-columns: 1fr; gap: 2.2em; }
+  .trio { grid-template-columns: 1fr; gap: .9em; }
+  .trio li { display: flex; justify-content: space-between; align-items: baseline; gap: 1em; }
+  .trio b { font-size: 1.15em; }
+}
+
+@media (max-width: 520px) {
+  :root { --bar-h: 62px; }
+  .bar { padding-left: 10px; padding-right: 10px; gap: 6px; }
+  .bar__nav { gap: 4px; }
+  .counter { min-width: 4.6em; padding: 0 .3em; }
+  .cover__meta { grid-template-columns: 1fr; gap: .8em; }
+  .cover::before { left: 6px; width: 4px; }
+}
+
+/* ছোট উচ্চতার ল্যান্ডস্কেপ ফোন */
+@media (max-height: 480px) and (orientation: landscape) {
+  :root { --bar-h: 54px; }
+  .btn, .counter { height: 42px; }
+  .btn { width: 42px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+  }
+}
+
+/* ---------- প্রিন্ট: প্রতিটি স্লাইড আলাদা পাতায় ---------- */
+
+@media print {
+  html { font-size: 12pt; }
+  body { overflow: visible; background: #fff; }
+  .deck { position: static; overflow: visible; }
+  .slide {
+    position: static;
+    display: block;
+    overflow: visible;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    break-after: page;
+    -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+  }
+  .slide__inner, .cover { margin: 0 auto; }
+  .bar, .progress, .menu { display: none !important; }
+}
